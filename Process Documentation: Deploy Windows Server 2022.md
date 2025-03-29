@@ -502,3 +502,99 @@ Repeat the above process to create additional users as necessary.
    - Click on **Action** → **Configure Email Notification** in the **Windows Server Backup** window.
    - Enter SMTP settings and recipient email address to receive backup notifications.
 
+## **Step 7 (Recommended): Configure and Apply the GPOs to the Domain**
+
+### **1. Open Group Policy Management Console (GPMC)**
+   - On your **Domain Controller** or **Server**, open **Server Manager**.
+   - From the **Server Manager** window, click on **Tools** → **Group Policy Management**.
+   - This opens the **Group Policy Management Console (GPMC)**.
+
+### **2. Create a New Group Policy Object (GPO)**
+   - In **Group Policy Management**, expand the **Forest** → **Domains** → select your domain.
+   - Right-click on **Group Policy Objects** and select **New**.
+   - Name the new GPO something meaningful like **"Security Policies GPO"**.
+   - Click **OK**.
+
+### **3. Edit the GPO**
+   - Right-click the newly created GPO and select **Edit**.
+   - The **Group Policy Management Editor** opens, where you can configure the policies.
+
+### **4. Configure Password Policy**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **Computer Configuration** → **Policies** → **Windows Settings** → **Security Settings** → **Account Policies** → **Password Policy**.
+   - Configure the following settings:
+     - **Enforce password history**: Set to **5 passwords remembered**.
+     - **Maximum password age**: Set to **90 days**.
+     - **Minimum password length**: Set to **8 characters**.
+     - **Complexity requirements**: Set to **Enabled** to require strong passwords (e.g., upper and lowercase letters, numbers, symbols).
+     - **Minimum password age**: Set to **1 day** to prevent immediate password changes.
+   - Close the editor after configuring the settings.
+
+### **5. Configure Account Lockout & Reset Policy**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **Computer Configuration** → **Policies** → **Windows Settings** → **Security Settings** → **Account Policies** → **Account Lockout Policy**.
+   - Configure the following settings:
+     - **Account lockout threshold**: Set to **5 invalid logon attempts**.
+     - **Account lockout duration**: Set to **15 minutes**.
+     - **Reset account lockout counter after**: Set to **15 minutes**.
+   - This will ensure accounts are locked after multiple failed login attempts and will reset after a specified duration.
+
+### **6. Restrict Access to Command Prompt & PowerShell for Regular Users**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **User Configuration** → **Policies** → **Administrative Templates** → **System**.
+   - Configure the following settings:
+     - **Prevent access to the command prompt**: Set to **Enabled**.
+     - **Disable the Command Prompt script processing**: Set to **Enabled**.
+   - For PowerShell, navigate to:
+     - **User Configuration** → **Policies** → **Administrative Templates** → **System** → **Prevent access to the command prompt**.
+   - Set **Prevent access to PowerShell**: Set to **Enabled**.
+   - This will restrict regular users from accessing the command prompt and PowerShell.
+
+### **7. Restrict Access to Control Panel**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **User Configuration** → **Policies** → **Administrative Templates** → **Control Panel**.
+   - Enable the setting:
+     - **Prohibit access to Control Panel and PC settings**: Set to **Enabled**.
+   - This will restrict regular users from accessing the Control Panel.
+
+### **8. Disable Shut Down/Power Off Options**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **User Configuration** → **Policies** → **Administrative Templates** → **Start Menu and Taskbar**.
+   - Enable the setting:
+     - **Remove and prevent access to the Shut Down, Restart, Sleep, and Hibernate commands**: Set to **Enabled**.
+   - This will prevent regular users from shutting down or restarting the computer.
+
+### **9. Disabling the View of Recently Logged-On Users**
+   - In the **Group Policy Management Editor**, navigate to:
+     - **User Configuration** → **Policies** → **Administrative Templates** → **Start Menu and Taskbar**.
+   - Enable the setting:
+     - **Do not display the ‘Recently Opened Documents’ on Start**: Set to **Enabled**.
+     - **Do not keep a history of recently opened documents**: Set to **Enabled**.
+     - **Do not show recent user names in the Start menu**: Set to **Enabled**.
+   - This will ensure that recently logged-on users are not visible on the Start Menu.
+
+### **10. Link the GPO to the Domain**
+   - After configuring the policies, close the **Group Policy Management Editor**.
+   - Back in the **Group Policy Management Console (GPMC)**, right-click on **Domain** and select **Link an Existing GPO**.
+   - Select the **Security Policies GPO** you just created.
+   - Click **OK** to apply the GPO to the domain.
+
+### **11. Force GPO Update**
+   - On the **Domain Controller**, open **Command Prompt** as an Administrator.
+   - Run the following command to force the GPO to apply immediately:
+     ```bash
+     gpupdate /force
+     ```
+
+### **12. Verify GPO Application**
+   - To ensure that the GPO has been successfully applied, run the following command on a client machine or server:
+     ```bash
+     gpresult /r
+     ```
+   - This will display the resultant set of policies and confirm that the GPO is being applied correctly.
+
+### **Best Practices**:
+- Test GPO changes in a **test environment** before applying them to production.
+- Regularly review and audit the GPOs to ensure compliance with security requirements.
+- Document any changes made to GPOs for future troubleshooting and audits.
+
