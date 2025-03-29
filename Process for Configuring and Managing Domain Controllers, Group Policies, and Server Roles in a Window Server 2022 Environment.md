@@ -19,6 +19,41 @@ This document is intended for IT administrators and system engineers tasked with
 
 ---
 
+### **2. Scope and Boundaries**
+
+**Scope**:  
+This document covers the complete process of configuring and managing a **Windows Server 2022** domain environment. The steps outlined will include:
+
+- Setting up IP addressing and network configuration for servers and computers.
+- Configuring and installing the necessary server roles on the Domain Controller (DC), including **Active Directory Domain Services (AD DS)**, **DNS**, **DHCP**, and **Windows Backup Server**.
+- Creating and managing users and organizational units (OUs) in Active Directory using both **Graphical User Interface (GUI)** and **PowerShell**.
+- Applying **Group Policy Objects (GPOs)** to ensure security policies are implemented across the domain.
+- Configuring shared folders and access permissions on the **File Server**.
+- Ensuring all devices are successfully joined to the domain and are functioning according to organizational and security standards.
+
+**Boundaries**:  
+This document does **not** cover:
+
+- Installation of **Windows Server 2022** itself. It is assumed the operating system is already installed on the servers prior to following this guide.
+- Advanced troubleshooting or disaster recovery scenarios for domain controllers or related services.
+- Configuration or management of non-Windows-based servers or systems outside of the domain environment.
+- Implementation of additional third-party software or services not related to the core Windows Server roles mentioned.
+  
+**Exclusions**:
+- This document excludes the setup of **cloud-based services** such as **Azure AD** or hybrid environments, focusing exclusively on a traditional on-premise Active Directory domain.
+- It does not cover configurations specific to external DNS or public-facing services like **web hosting** or **email servers**.
+
+**Expected Outcomes**:  
+Upon completion of this process:
+- The domain environment will be properly configured, secure, and scalable.
+- All relevant servers and workstations will be integrated into the domain.
+- Proper access control and user management will be established.
+- Group policies ensuring security best practices will be applied.
+
+This document is intended to guide IT administrators through all aspects of a **Windows Server 2022** domain setup, from initial configuration through to user management and security enforcement.
+
+---
+
 ## **Step-by-Step Procedure for Deploying Windows Server 2022**
 
 ## **Step 1: Verify Hardware Requirements**  
