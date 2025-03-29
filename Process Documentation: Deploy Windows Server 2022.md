@@ -7,7 +7,7 @@
 ## **Step 1: Verify Hardware Requirements**  
 Before installing Windows Server 2022, ensure that the target system meets the minimum and recommended hardware specifications.
 
-### ✅ **1.1. Minimum Hardware Requirements**
+### **1.1. Minimum Hardware Requirements**
 | Component | Minimum Requirement | Recommended Requirement |
 |----------|---------------------|-------------------------|
 | **Processor** | 1.4 GHz 64-bit processor | 2 GHz or faster, multi-core |
@@ -16,7 +16,7 @@ Before installing Windows Server 2022, ensure that the target system meets the m
 | **Network** | 1x Ethernet Adapter (1 Gbps) | 1 Gbps or higher |
 | **Firmware** | UEFI-based firmware with Secure Boot | UEFI with TPM 2.0 enabled |
 
-### ✅ **1.2. Compatibility Check**
+### **1.2. Compatibility Check**
 1. **Boot into BIOS/UEFI:**  
    - Restart the machine.  
    - Press the appropriate key (usually **F2**, **F10**, or **DEL**) to enter BIOS/UEFI.  
@@ -33,14 +33,14 @@ Before installing Windows Server 2022, ensure that the target system meets the m
    - Navigate to **Security Settings** in BIOS.  
    - Confirm **TPM 2.0** is enabled (if available).  
 
-### ✅ **1.3. Disk Configuration**
+### **1.3. Disk Configuration**
 1. Confirm that the storage meets size requirements.  
 2. If using RAID, configure the RAID controller before installation:  
    - Access RAID setup utility (usually **CTRL + R** or **CTRL + I**).  
    - Create RAID volume (**RAID 1** for redundancy or **RAID 5** for performance).  
 3. If using NVMe, confirm that NVMe drivers are available during installation.  
 
-### ✅ **1.4. Network Configuration**
+### **1.4. Network Configuration**
 1. Connect to a physical network using a **1 Gbps** or higher Ethernet port.  
 2. If installing on a VM:  
    - Create a **NAT network** for external internet access.  
@@ -49,7 +49,7 @@ Before installing Windows Server 2022, ensure that the target system meets the m
      - **NAT** → External IP Assignment  
      - **VNET 3** → 192.168.30.0/24  
 
-### ✅ **1.5. Power and Peripheral Setup**
+### **1.5. Power and Peripheral Setup**
 1. Ensure the system is connected to a **reliable power source** (UPS recommended).  
 2. Connect the following peripherals:  
    - **Monitor**  
@@ -57,11 +57,133 @@ Before installing Windows Server 2022, ensure that the target system meets the m
    - **Mouse**  
    - **Network Cable**  
 
-### 🔎 **Decision Points**
-| Scenario | Action |
-|----------|--------|
-| BIOS does not have UEFI option | Update BIOS firmware from manufacturer site |
-| Virtualization settings are missing | Ensure the processor supports VT-x/AMD-V and update BIOS |
-| TPM 2.0 not detected | Confirm that the motherboard supports TPM and enable it in BIOS |
-| No network connection | Check physical cable, switch port, or NIC driver |
+## **Step 2: Install Windows Server 2022**  
+This section provides a detailed guide on how to install Windows Server 2022 from an ISO file onto physical hardware or a virtual machine.
+
+### **2.1. Prepare the Installation Media**  
+
+### **(a) Download the Windows Server 2022 ISO File**
+1. Open a browser and go to the [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2022).  
+2. Select **"Windows Server 2022"** from the list of available products.  
+3. Choose the option to download the **ISO file**.  
+4. Save the file to a known location on your computer.  
+5. Verify the integrity of the downloaded file by checking the SHA256 hash value (optional).  
+
+### **(b) Create a Bootable USB (for Physical Hardware Installation)**
+> If you’re installing on a virtual machine, skip this step and go to **2.2**.  
+
+1. Insert a USB flash drive (minimum **8 GB**).  
+2. Download and install **Rufus** from [https://rufus.ie](https://rufus.ie).  
+3. Open **Rufus** and configure the following:  
+   - **Device** → Select your USB drive.  
+   - **Boot Selection** → Select the downloaded ISO file.  
+   - **Partition scheme** → Set to **GPT** (for UEFI) or **MBR** (for legacy BIOS).  
+   - **File System** → NTFS.  
+4. Click **Start** to create the bootable USB.  
+5. Once the process is complete, eject the USB drive.  
+
+### **2.2. Boot from Installation Media**  
+
+### **(a) For Physical Hardware:**
+1. Insert the bootable USB drive into the server.  
+2. Restart the system.  
+3. Press the correct key to enter the **boot menu** (depends on the manufacturer):  
+   - **F2** – Dell  
+   - **F10** – HP  
+   - **F12** – Lenovo  
+4. Select the USB drive from the boot menu.  
+5. Press **Enter**.  
+
+### **(b) For Virtual Machine (VMware, Hyper-V, VirtualBox):**
+1. Open your virtualization software (e.g., **VMware Workstation**).  
+2. Create a new virtual machine:  
+   - **Guest OS:** Windows Server 2022  
+   - **Processors:** 2 (2 cores)  
+   - **Memory:** 4–8 GB  
+   - **Disk:** 80 GB (SCSI/NVMe)  
+   - **Network:** NAT and Internal (VNET)  
+3. Attach the Windows Server 2022 ISO as a boot device.  
+4. Start the VM.  
+
+### **2.3. Start the Installation**  
+1. When the **Windows Setup** screen appears, select the following options:  
+   - **Language to install:** English (United States)  
+   - **Time and currency format:** English (United States)  
+   - **Keyboard or input method:** US  
+2. Click **Next**.  
+
+3. Click **Install Now**.  
+
+### **2.4. Enter Product Key**  
+1. If you have a product key, enter it.  
+2. If you don’t have a key, select **"I don’t have a product key"** to proceed with an evaluation installation.  
+3. Click **Next**.  
+
+### **2.5. Select the Operating System**  
+1. Choose one of the following options:  
+   - **Windows Server 2022 Standard (Desktop Experience):** Includes GUI  
+   - **Windows Server 2022 Standard (Server Core):** No GUI  
+2. Click **Next**.  
+
+### **2.6. Accept License Terms**  
+1. Check the box for **"I accept the license terms."**  
+2. Click **Next**.  
+
+### **2.7. Select Installation Type**  
+1. **Custom: Install Windows Only (Advanced):**  
+   - Use this option for a clean installation.  
+2. **Upgrade:**  
+   - Use this option only if upgrading from a previous version of Windows Server.  
+3. Select **Custom** for a fresh install.  
+
+### **2.8. Partition the Disk**  
+1. On the **"Where do you want to install Windows?"** screen:  
+   - If no partitions exist:  
+     - Select **New** → Allocate the recommended size for each partition.  
+     - Format the partitions.  
+   - If partitions already exist:  
+     - Delete any existing partitions if you are performing a clean install.  
+2. Recommended partitioning:  
+   - **C:** – 80 GB (OS)  
+   - **D:** – 70 GB (Data)  
+   - **E:** – 4 x 10 GB (NVMe partitions)  
+3. Click **Next**.  
+
+### **2.9. Start Installation**  
+1. Click **Next** to start the installation.  
+2. Windows will begin copying and expanding files (this may take 10–30 minutes).  
+3. The system will automatically restart once the installation is complete.  
+
+### **2.10. Initial Setup After Installation**  
+1. After the system restarts, you will see the **Set Up Windows** screen.  
+2. Create an **Administrator Password**:  
+   - Must be at least 8 characters.  
+   - Include uppercase, lowercase, number, and special character.  
+3. Click **Finish**.  
+
+### **2.11. First Sign-In**  
+1. When the login screen appears, press **Ctrl + Alt + Delete**.  
+2. Sign in with:  
+   - **Username:** `Administrator`  
+   - **Password:** YourConfiguredPassword  
+3. After login, the Server Manager will open automatically.  
+
+### **2.12. Configure Windows Updates**  
+1. Open **Settings** → **Update & Security** → **Windows Update**.  
+2. Check for updates.  
+3. Install all available updates.  
+4. Restart the server if required.  
+
+### **2.13. Install Network Drivers (if required)**  
+1. Open **Device Manager** (Right-click Start → Device Manager).  
+2. Expand **Network Adapters**.  
+3. If drivers are missing, right-click → **Update Driver**.  
+4. If using a physical machine, download drivers from the manufacturer’s website.  
+
+### **2.14. Enable Remote Desktop**  
+1. Open **Settings** → **System** → **Remote Desktop**.  
+2. Toggle **Enable Remote Desktop** to **ON**.  
+3. Allow Remote Desktop through Windows Firewall:  
+   - Open **Control Panel** → **System and Security** → **Windows Defender Firewall** → **Allow an app through firewall**.  
+   - Check **Remote Desktop**.
 
