@@ -2,7 +2,7 @@
 
 ---
 
-### **Process Name and Purpose**
+## **Process Name and Purpose**
 
 **Process Name**:  
 **Configuring and Managing Domain Controllers, Group Policies, and Server Roles in a Windows Server 2022 Environment**
@@ -19,7 +19,7 @@ This document is intended for IT administrators and system engineers tasked with
 
 ---
 
-### **Scope and Boundaries**
+## **Scope and Boundaries**
 
 **Scope**:  
 This document covers the complete process of configuring and managing a **Windows Server 2022** domain environment. The steps outlined will include:
@@ -51,6 +51,59 @@ Upon completion of this process:
 - Group policies ensuring security best practices will be applied.
 
 This document is intended to guide IT administrators through all aspects of a **Windows Server 2022** domain setup, from initial configuration through to user management and security enforcement.
+
+---
+
+## Roles and Responsibilities**
+
+This section outlines the roles and responsibilities of the personnel involved in the process of configuring and managing the **Windows Server 2022** environment. Clear definitions of each role ensure accountability and provide guidance for all involved stakeholders.
+
+**1. IT Administrator**  
+**Primary Responsibility**:  
+- Configure and install **Active Directory Domain Services (AD DS)** on the Domain Controller.
+- Set up **DNS**, **DHCP**, and **File Server roles** on the appropriate servers.
+- Create and configure **Group Policy Objects (GPOs)** to enforce security settings across the domain.
+- Manage **user accounts**, **organizational units (OUs)**, and group memberships using both **GUI** and **PowerShell**.
+- Ensure all **servers and workstations** are joined to the domain and configured according to organizational policies.
+- Set up **network configurations** including static IP assignments and DHCP reservations.
+- Conduct **backup configurations** for the domain controller and ensure proper **Windows Backup** scheduling.
+  
+**2. Network Administrator**  
+**Primary Responsibility**:  
+- Design and implement the **IP addressing scheme** for the domain, ensuring proper static IP assignments for servers and dynamic IP assignment for workstations via DHCP.
+- Configure network-related services such as **DNS** to ensure proper name resolution across the domain.
+- Provide support in the configuration of the **domain controller**'s network settings and ensure connectivity across the entire network.
+  
+**3. Security Administrator**  
+**Primary Responsibility**:  
+- Ensure that the security settings within the domain are applied properly via **Group Policy Objects (GPOs)**.
+- Implement password policies, account lockout policies, and restrict access to sensitive features such as **Control Panel** and **Command Prompt**.
+- Monitor and assess domain activity for compliance with security best practices, including the enforcement of access restrictions to domain resources.
+  
+**4. Helpdesk Support**  
+**Primary Responsibility**:  
+- Provide user support for day-to-day operations of domain resources.
+- Assist in troubleshooting connectivity issues with the domain and resolve any issues related to user access or group policies.
+- Help onboard new users to the domain, ensuring the appropriate group memberships and access permissions are applied.
+
+**5. Server Administrator**  
+**Primary Responsibility**:  
+- Install, configure, and maintain all server roles on the **Domain Controllers** and other servers in the domain.
+- Ensure that **File Server** roles are properly configured and shared folders are accessible to authorized users.
+- Manage **security groups** for each department and ensure access control to shared resources is configured according to the organization's policies.
+
+**6. End Users**  
+**Primary Responsibility**:  
+- Ensure they follow the organization's IT policies when accessing domain resources.
+- Report any issues with domain connectivity, password issues, or access restrictions to Helpdesk Support or IT Administrators.
+- Adhere to security guidelines, including creating strong passwords and securing their workstations.
+
+**7. Backup Administrator**  
+**Primary Responsibility**:  
+- Configure and maintain regular backup schedules for all critical domain data, including **system state** backups of domain controllers.
+- Ensure backup jobs run on schedule and that backups are tested regularly for data integrity and restoration.
+
+By defining and assigning clear roles and responsibilities, each participant in the process can understand their duties and the collaborative effort needed to establish and maintain the domain environment successfully.
 
 ---
 
