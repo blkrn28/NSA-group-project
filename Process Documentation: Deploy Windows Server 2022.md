@@ -187,6 +187,8 @@ This section provides a detailed guide on how to install Windows Server 2022 fro
    - Open **Control Panel** → **System and Security** → **Windows Defender Firewall** → **Allow an app through firewall**.  
    - Check **Remote Desktop**.
 
+## **Step 3: Create and Configure Environment** 
+
 ### **3.1 IP Address Scheme**  
 Before configuring the domain, set up the IP scheme for the servers and workstations to ensure they are part of the same network and can communicate with each other. For exmaple:-
 
