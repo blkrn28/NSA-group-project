@@ -440,3 +440,65 @@ Repeat the above process to create additional users as necessary.
    - Right-click on the folder, select **Properties**, and go to the **Security** tab.
    - Click **Advanced** and then set the **Owner** to an administrative group like **Domain Admins**.
 
+## **Step 6: Schedule a One-Time Backup on a Network Drive**
+
+### **1. Open Windows Server Backup**
+   - On the **Domain Controller** or the **Backup Server**, open **Server Manager**.
+   - From **Server Manager**, click **Tools** → **Windows Server Backup**.
+
+### **2. Initiate Backup Wizard**
+   - In the **Windows Server Backup** window, click on **Local Backup** in the left-hand pane.
+   - In the right-hand pane, click **Backup Once** under the **Actions** section.
+   - This will start the **Backup Once Wizard**.
+
+### **3. Select Backup Configuration**
+   - In the **Backup Once Wizard**, choose **Different options** and click **Next**.
+   - Select **Custom** to configure a one-time backup manually, and click **Next**.
+
+### **4. Select Items to Back Up**
+   - In the **Select Items for Backup** window, choose the appropriate volumes and folders that you want to back up.
+   - For example, select the **C:\** drive and any other critical data folders (e.g., **D:\Backup**).
+   - Click **Next**.
+
+### **5. Choose Backup Destination**
+   - Select **Network share** as the backup destination.
+   - Enter the **network path** for the shared backup folder on the network drive (e.g., `\\BackupServer\BackupShare\`).
+   - Enter the **username** and **password** to authenticate access to the network drive.
+   - Click **Next**.
+
+### **6. Specify Backup Type**
+   - Select the appropriate backup type:
+     - **Full Backup** (if you want a complete backup of the selected data).
+     - **Incremental Backup** (if you want only the changes made since the last full backup).
+   - For a one-time backup, it’s recommended to choose a **Full Backup**.
+   - Click **Next**.
+
+### **7. Set Backup Schedule**
+   - In the **Schedule** section, select **Once** to schedule a one-time backup.
+   - Specify the **date and time** you want the backup to occur.
+   - Make sure to set a time that aligns with the least disruptive period for the system.
+   - Click **Next**.
+
+### **8. Review the Backup Settings**
+   - The **Backup Once Wizard** will show a summary of your backup settings.
+   - Review all selections:
+     - Backup source: Folders and volumes selected.
+     - Destination: Network share.
+     - Backup type: Full or Incremental.
+     - Schedule: One-time backup with the specified date and time.
+   - If everything is correct, click **Backup** to start the process.
+
+### **9. Monitor the Backup Process**
+   - The backup will begin and can take some time depending on the amount of data being backed up.
+   - The progress will be displayed in the **Windows Server Backup** window.
+
+### **10. Verify Backup Completion**
+   - After the backup process is completed, you will receive a notification stating whether the backup was successful.
+   - To verify, go to the **network share folder** and ensure the backup files are present.
+   - Ensure the backup folder has a new timestamp matching the scheduled backup time.
+
+### **11. Set Up Email Notifications (Optional)**
+   - To receive an email notification upon completion of the backup, configure email alerts in **Windows Server Backup** settings.
+   - Click on **Action** → **Configure Email Notification** in the **Windows Server Backup** window.
+   - Enter SMTP settings and recipient email address to receive backup notifications.
+
