@@ -288,3 +288,52 @@ Ensure each device gets a unique IP within the specified ranges.
    ```powershell
    ping yourinitialsnsamitt.ca
 
+## **Step 4: Create and Configure Users and OUs for Environment**
+
+### **4.1 Create Organizational Units (OUs) with GUI**
+1. On the **Domain Controller**, open **Active Directory Users and Computers** (ADUC) from **Server Manager** → **Tools** → **Active Directory Users and Computers**.
+2. In the **ADUC** window, right-click on the domain name (`yourinitialsnsamitt.ca`), then select **New** → **Organizational Unit**.
+3. In the **New Object – Organizational Unit** window, enter the **OU Name** (e.g., `Sales` or `IT`).
+4. Optionally, check **Protect container from accidental deletion** to prevent accidental removal of the OU.
+5. Click **OK** to create the OU.
+6. Repeat the process to create additional OUs as needed (e.g., `HR`, `IT`, `Support`).
+
+### **4.2 Create Users with GUI**
+1. In **Active Directory Users and Computers** (ADUC), right-click on the desired **OU** (e.g., `IT`) and select **New** → **User**.
+2. In the **New Object – User** window, enter the following user details:
+   - **First Name**: `Lime`
+   - **Last Name**: `User`
+   - **User logon name**: `lime.user`
+3. Click **Next**.
+4. Set the **Password** for the user and confirm the password. You can choose to make the password changeable or set it to not expire.
+   - **Password**: `P@ssw0rd123!`
+   - **Password never expires** (optional).
+5. Click **Next**, then **Finish** to create the user.
+6. Verify the new user appears under the selected **OU**.
+
+Repeat the above process to create additional users as necessary.
+
+### **4.4 Assign Administrative Permissions (e.g., IT Members)**
+
+1. **Open Active Directory Users and Computers (ADUC)**.
+   - On the **Domain Controller**, open **Active Directory Users and Computers** (ADUC) from **Server Manager** → **Tools** → **Active Directory Users and Computers**.
+
+2. **Locate the User Account**.
+   - In **ADUC**, navigate to the **Organizational Unit (OU)** where the user is located (e.g., **IT**).
+   - Find the user account (e.g., `lime.user`).
+
+3. **Assign User to a Group**.
+   - Right-click on the user account and select **Add to Group**.
+   - In the **Enter the object names to select** field, type the name of the group to which you want to assign the user, such as:
+     - **Domain Admins** (for administrative permissions)
+     - **Enterprise Admins** (for higher-level permissions)
+     - **IT** (for internal IT staff)
+   - Click **Check Names** to verify the group, then click **OK**.
+
+4. **Verify Group Membership**.
+   - To ensure the user has been added to the group, right-click the user account again and select **Properties**.
+   - Navigate to the **Member Of** tab and verify that the correct group (e.g., **Domain Admins**) is listed.
+
+5. **Repeat for Additional Users**.
+   - Repeat the steps for any other users who need administrative permissions (e.g., adding them to **Domain Admins** or **IT**).
+  
