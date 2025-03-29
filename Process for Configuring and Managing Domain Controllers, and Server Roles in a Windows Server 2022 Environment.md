@@ -1,11 +1,11 @@
-# **Process for Configuring and Managing Domain Controllers, Group Policies, and Server Roles in a Windows Server 2022 Environment**
+# **Process for Configuring and Managing Domain Controllers, and Server Roles in a Windows Server 2022 Environment**
 
 ---
 
 ## **Process Name and Purpose**
 
 **Process Name**:  
-**Configuring and Managing Domain Controllers, Group Policies, and Server Roles in a Windows Server 2022 Environment**
+**Configuring and Managing Domain Controllers, and Server Roles in a Windows Server 2022 Environment**
 
 **Purpose**:  
 The purpose of this document is to provide a comprehensive, step-by-step guide for the configuration and management of **Domain Controllers**, **Group Policies**, and key **server roles** within a **Windows Server 2022** environment. This process ensures the secure setup of Active Directory, DNS, and other server roles essential for an efficient and stable IT infrastructure. By following this guide, system administrators can establish a domain environment that meets both functional and security requirements, while ensuring compliance with organizational standards and best practices.
@@ -347,7 +347,7 @@ This section provides a detailed guide on how to install Windows Server 2022 fro
 ### **3.1 IP Address Scheme**  
 Before configuring the domain, set up the IP scheme for the servers and workstations to ensure they are part of the same network and can communicate with each other. For exmaple:-
 
-#### **3.1.1 Assign IP Addresses**  for an example
+#### **3.1.1 Assign IP Addresses (Examples)**
 
 - **Domain Controller (DC) Server**  
   - **IP Address**: `192.168.30.100`  
@@ -356,7 +356,7 @@ Before configuring the domain, set up the IP scheme for the servers and workstat
   - **DNS Server**: `192.168.30.100` (DNS will be configured later)  
 
 - **Other Servers (SVR01, SVR02, etc.)**  
-  - **IP Address**: `192.168.30.110` for SVR01, `192.168.30.120` for SVR02  
+  - **IP Address**: `192.168.30.110`
   - **Subnet Mask**: `255.255.255.0`  
   - **Gateway**: `192.168.30.1`  
   - **DNS Server**: `192.168.30.100`
@@ -381,7 +381,7 @@ Ensure each device gets a unique IP within the specified ranges.
 #### **3.2.2 Promote the Server to Domain Controller**  
 1. After AD DS is installed, click **Promote this server to a domain controller**.  
 2. Select **Add a new forest** under the **Deployment Configuration**.  
-3. Enter the **Root domain name**: `yourinitialsnsamitt.ca` (replace with your domain name).  
+3. Enter the **Root domain name**: `domain.com` (replace with your domain name).  
 4. Set the **Forest functional level** and **Domain functional level** to **Windows Server 2022**.  
 5. Enter a **Directory Services Restore Mode (DSRM)** password for recovery.  
 6. Complete the wizard by clicking **Next** and **Install**. The server will restart once the installation is complete.  
@@ -394,9 +394,9 @@ Ensure each device gets a unique IP within the specified ranges.
 ### **3.4 Configure DNS Server**  
 1. Open **DNS Manager** from **Server Manager** → **Tools** → **DNS**.  
 2. Right-click **Forward Lookup Zones** and select **New Zone**.  
-3. Follow the wizard to create a **Primary Zone** with the domain name `yourinitialsnsamitt.ca`.  
+3. Follow the wizard to create a **Primary Zone** with the domain name `domain.com`.  
 4. Confirm that the DNS server is correctly resolving domain names within the domain by performing a test from a client computer:  
-   - Open **Command Prompt** and type `nslookup yourinitialsnsamitt.ca`.  
+   - Open **Command Prompt** and type `domain.com`.  
 
 ### **3.5 Install Windows Server Backup Role**  
 1. In **Server Manager**, go to **Add roles and features**.  
@@ -424,7 +424,7 @@ Ensure each device gets a unique IP within the specified ranges.
 #### **3.7.1 Join Servers to the Domain**
 1. On each server (e.g., **SVR01**), right-click **This PC** → **Properties**.
 2. Click **Change Settings** under **Computer Name, Domain, and Workgroup Settings**.
-3. Click **Change**, select **Domain**, and enter the domain name `yourinitialsnsamitt.ca`.
+3. Click **Change**, select **Domain**, and enter the domain name `domain.com`.
 4. Enter domain administrator credentials when prompted.
 5. Restart the server for the changes to take effect.
 6. Confirm the server is joined to the domain by checking **System Properties**.
@@ -432,7 +432,7 @@ Ensure each device gets a unique IP within the specified ranges.
 #### **3.7.2 Join Computers to the Domain**
 1. On each workstation, go to **Control Panel** → **System and Security** → **System**.
 2. Click **Change settings** under **Computer Name, Domain, and Workgroup Settings**.
-3. Click **Change**, select **Domain**, and enter `yourinitialsnsamitt.ca`.
+3. Click **Change**, select **Domain**, and enter `domain.com`.
 4. Enter domain administrator credentials when prompted.
 5. Restart the computer for the changes to take effect.
 6. Confirm that the computer is part of the domain by checking **System Properties**.
@@ -441,13 +441,13 @@ Ensure each device gets a unique IP within the specified ranges.
 1. On the **Domain Controller**, open **Active Directory Users and Computers** to verify that all joined devices (servers and workstations) are listed under the **Computers** Organizational Unit (OU).
 2. Verify that the domain is functional by using the following command on any device:
    ```powershell
-   ping yourinitialsnsamitt.ca
+   ping domain.com
 
 ## **Step 4: Create and Configure Users and OUs for Environment**
 
 ### **4.1 Create Organizational Units (OUs) with GUI**
 1. On the **Domain Controller**, open **Active Directory Users and Computers** (ADUC) from **Server Manager** → **Tools** → **Active Directory Users and Computers**.
-2. In the **ADUC** window, right-click on the domain name (`yourinitialsnsamitt.ca`), then select **New** → **Organizational Unit**.
+2. In the **ADUC** window, right-click on the domain name (`domain.com`), then select **New** → **Organizational Unit**.
 3. In the **New Object – Organizational Unit** window, enter the **OU Name** (e.g., `Sales` or `IT`).
 4. Optionally, check **Protect container from accidental deletion** to prevent accidental removal of the OU.
 5. Click **OK** to create the OU.
@@ -995,6 +995,3 @@ The Appendix section provides supplementary information, such as additional reso
 - **DHCP (Dynamic Host Configuration Protocol)**: A network management protocol used on IP networks. DHCP automatically assigns IP addresses to devices on the network, ensuring proper addressing and configuration.
 
 - **Group Policy**: A feature of Microsoft Windows that allows IT administrators to define configurations for users and computers within an Active Directory environment.
-
----
-
