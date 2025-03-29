@@ -2,7 +2,7 @@
 
 ---
 
-## **1. Process Name and Purpose**
+### **1. Process Name and Purpose**
 
 **Process Name**:  
 **Configuring and Managing Domain Controllers, Group Policies, and Server Roles in a Windows Server 2022 Environment**
@@ -19,7 +19,7 @@ This document is intended for IT administrators and system engineers tasked with
 
 ---
 
-## **2. Scope and Boundaries**
+### **2. Scope and Boundaries**
 
 **Scope**:  
 This document covers the complete process of configuring and managing a **Windows Server 2022** domain environment. The steps outlined will include:
