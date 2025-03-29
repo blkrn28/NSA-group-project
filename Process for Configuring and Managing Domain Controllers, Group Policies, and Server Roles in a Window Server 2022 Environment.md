@@ -54,7 +54,7 @@ This document is intended to guide IT administrators through all aspects of a **
 
 ---
 
-## Roles and Responsibilities**
+## **Roles and Responsibilities**
 
 This section outlines the roles and responsibilities of the personnel involved in the process of configuring and managing the **Windows Server 2022** environment. Clear definitions of each role ensure accountability and provide guidance for all involved stakeholders.
 
