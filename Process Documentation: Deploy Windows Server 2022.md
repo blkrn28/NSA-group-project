@@ -313,6 +313,40 @@ Ensure each device gets a unique IP within the specified ranges.
 
 Repeat the above process to create additional users as necessary.
 
+### **4.3 Create Bulk Users with PowerShell**
+
+To create users in bulk using PowerShell, follow these steps:
+
+1. **Open PowerShell** with administrative privileges on the Domain Controller.
+2. Use the following **PowerShell script** to create a batch of users:
+
+```powershell
+$users = @(
+    @{FirstName="Lime"; LastName="User"; Username="lime.user"},
+    @{FirstName="John"; LastName="Doe"; Username="john.doe"},
+    @{FirstName="Jane"; LastName="Smith"; Username="jane.smith"}
+)
+
+foreach ($user in $users) {
+    $FirstName = $user.FirstName
+    $LastName = $user.LastName
+    $Username = $user.Username
+    $Password = ConvertTo-SecureString "P@ssw0rd123!" -AsPlainText -Force
+    $OU = "OU=IT,DC=yourinitialsnsamitt,DC=ca"  # Adjust the OU as needed
+
+    New-ADUser -GivenName $FirstName `
+               -Surname $LastName `
+               -SamAccountName $Username `
+               -UserPrincipalName "$Username@yourinitialsnsamitt.ca" `
+               -Name "$FirstName $LastName" `
+               -DisplayName "$FirstName $LastName" `
+               -Path $OU `
+               -AccountPassword $Password `
+               -Enabled $true `
+               -ChangePasswordAtLogon $true
+}
+```
+
 ### **4.4 Assign Administrative Permissions (e.g., IT Members)**
 
 1. **Open Active Directory Users and Computers (ADUC)**.
