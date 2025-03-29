@@ -187,3 +187,102 @@ This section provides a detailed guide on how to install Windows Server 2022 fro
    - Open **Control Panel** → **System and Security** → **Windows Defender Firewall** → **Allow an app through firewall**.  
    - Check **Remote Desktop**.
 
+### **3.1 IP Address Scheme**  
+Before configuring the domain, set up the IP scheme for the servers and workstations to ensure they are part of the same network and can communicate with each other. For exmaple:-
+
+#### **3.1.1 Assign IP Addresses**  for an example
+
+- **Domain Controller (DC) Server**  
+  - **IP Address**: `192.168.30.100`  
+  - **Subnet Mask**: `255.255.255.0`  
+  - **Gateway**: `192.168.30.1`  
+  - **DNS Server**: `192.168.30.100` (DNS will be configured later)  
+
+- **Other Servers (SVR01, SVR02, etc.)**  
+  - **IP Address**: `192.168.30.110` for SVR01, `192.168.30.120` for SVR02  
+  - **Subnet Mask**: `255.255.255.0`  
+  - **Gateway**: `192.168.30.1`  
+  - **DNS Server**: `192.168.30.100`
+
+- **Workstations/Computers**  
+  - **IP Address Range**: `192.168.30.121 - 192.168.30.199`  
+  - **Subnet Mask**: `255.255.255.0`  
+  - **Gateway**: `192.168.30.1`  
+  - **DNS Server**: `192.168.30.100`
+
+Ensure each device gets a unique IP within the specified ranges.
+
+### **3.2 Set up the Domain Controller (DC)**  
+
+#### **3.2.1 Install Active Directory Domain Services (AD DS)**  
+1. Open **Server Manager** on the server designated as **Domain Controller (DC)**.  
+2. Click on **Add roles and features**.  
+3. Select **Role-based or feature-based installation**, then select the server to install the roles.  
+4. In the **Roles** section, select **Active Directory Domain Services (AD DS)**.  
+5. Click **Next** and continue with the installation.  
+
+#### **3.2.2 Promote the Server to Domain Controller**  
+1. After AD DS is installed, click **Promote this server to a domain controller**.  
+2. Select **Add a new forest** under the **Deployment Configuration**.  
+3. Enter the **Root domain name**: `yourinitialsnsamitt.ca` (replace with your domain name).  
+4. Set the **Forest functional level** and **Domain functional level** to **Windows Server 2022**.  
+5. Enter a **Directory Services Restore Mode (DSRM)** password for recovery.  
+6. Complete the wizard by clicking **Next** and **Install**. The server will restart once the installation is complete.  
+
+### **3.3 Install DNS Server Role**  
+1. During the Domain Controller promotion process, the **DNS Server** role will be installed automatically.  
+2. Once the server has restarted, confirm the DNS role installation by navigating to **Server Manager** → **Tools** → **DNS**.  
+3. Ensure the DNS server is resolving domain names by testing with `nslookup` from a client device.  
+
+### **3.4 Configure DNS Server**  
+1. Open **DNS Manager** from **Server Manager** → **Tools** → **DNS**.  
+2. Right-click **Forward Lookup Zones** and select **New Zone**.  
+3. Follow the wizard to create a **Primary Zone** with the domain name `yourinitialsnsamitt.ca`.  
+4. Confirm that the DNS server is correctly resolving domain names within the domain by performing a test from a client computer:  
+   - Open **Command Prompt** and type `nslookup yourinitialsnsamitt.ca`.  
+
+### **3.5 Install Windows Server Backup Role**  
+1. In **Server Manager**, go to **Add roles and features**.  
+2. Select the **Windows Server Backup** feature and click **Next**.  
+3. Follow the wizard to install the backup feature.  
+4. After installation, open **Windows Server Backup** from **Server Manager** → **Tools**.  
+5. Configure the backup schedule as needed:  
+   - **Full backup** weekly.  
+   - **Incremental backup** daily at a specified time.  
+   - **Custom backup** of specific directories as required.  
+
+### **3.6 Apply Network Configuration to All Servers**  
+1. On each server, configure the network settings to match the IP scheme:  
+   - **IP Address**: Set to the assigned IP address.  
+   - **Subnet Mask**: `255.255.255.0`  
+   - **Gateway**: `192.168.30.1`  
+   - **DNS Server**: `192.168.30.100` (Primary Domain Controller)  
+
+2. Verify connectivity by using **ping** to test communication between servers and other devices in the network. For example:  
+   ```bash
+   ping 192.168.30.100
+
+### **3.7 Join Servers and Computers to the Domain**
+
+#### **3.7.1 Join Servers to the Domain**
+1. On each server (e.g., **SVR01**), right-click **This PC** → **Properties**.
+2. Click **Change Settings** under **Computer Name, Domain, and Workgroup Settings**.
+3. Click **Change**, select **Domain**, and enter the domain name `yourinitialsnsamitt.ca`.
+4. Enter domain administrator credentials when prompted.
+5. Restart the server for the changes to take effect.
+6. Confirm the server is joined to the domain by checking **System Properties**.
+
+#### **3.7.2 Join Computers to the Domain**
+1. On each workstation, go to **Control Panel** → **System and Security** → **System**.
+2. Click **Change settings** under **Computer Name, Domain, and Workgroup Settings**.
+3. Click **Change**, select **Domain**, and enter `yourinitialsnsamitt.ca`.
+4. Enter domain administrator credentials when prompted.
+5. Restart the computer for the changes to take effect.
+6. Confirm that the computer is part of the domain by checking **System Properties**.
+
+### **3.8 Verify Domain Configuration**
+1. On the **Domain Controller**, open **Active Directory Users and Computers** to verify that all joined devices (servers and workstations) are listed under the **Computers** Organizational Unit (OU).
+2. Verify that the domain is functional by using the following command on any device:
+   ```powershell
+   ping yourinitialsnsamitt.ca
+
