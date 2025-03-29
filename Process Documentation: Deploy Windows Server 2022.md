@@ -337,3 +337,106 @@ Repeat the above process to create additional users as necessary.
 5. **Repeat for Additional Users**.
    - Repeat the steps for any other users who need administrative permissions (e.g., adding them to **Domain Admins** or **IT**).
   
+## **Step 5: Configure New Roles on the Domain Controllers**
+
+### **Install All Roles and Services on the Domain Controller**
+1. **Open Server Manager** on the **Domain Controller**.
+2. Click on **Manage** → **Add Roles and Features**.
+3. Follow the wizard to install the following roles and services:
+   - **DHCP Server**
+   - **DNS Server**
+   - **File and Storage Services** (for File Server role)
+   - Other roles as required for your network environment.
+
+### **Configure DHCP on the Domain Controller**
+
+1. **Open DHCP Management Console**:
+   - On the Domain Controller, go to **Server Manager** → **Tools** → **DHCP**.
+
+2. **Create Reserved Addresses**:
+   - In the **DHCP Management Console**, expand your DHCP server.
+   - Right-click **Reservations** and select **New Reservation**.
+   - Enter the following:
+     - **Reservation Name**: Give the reservation a descriptive name (e.g., "Server 01").
+     - **IP Address**: Enter the IP address you want to reserve for the server.
+     - **MAC Address**: Enter the MAC address of the device.
+     - **Description**: Optional, but can describe the device.
+
+   - Click **Add** to create the reservation.
+
+3. **Configure Static IP Reservations for Servers**:
+   - Ensure that **all servers** in your environment are reserved in the DHCP server.
+   - Repeat the process above for each server (e.g., DC01, SVR01).
+
+4. **Configure PCs to Get IP Addresses via DHCP Scope**:
+   - On your **DHCP Server**, go to **Scope Options**.
+   - Set the appropriate **scope** for the PCs. 
+   - Make sure that the PCs are configured to receive IP addresses automatically from the DHCP scope (default is typically 192.168.30.0/24).
+
+### **Configure DNS Requirements**
+
+1. **Configure Domain Controller with Appropriate DNS Records**:
+   - On the **Domain Controller**, open the **DNS Manager** (from **Server Manager** → **Tools** → **DNS**).
+   - Right-click on your domain (e.g., **yourdomain.com**) and select **Properties**.
+   - Under the **Name Servers** tab, ensure that the Domain Controller is listed as a DNS server.
+   - Ensure that all relevant DNS records (such as A records for servers) are created automatically by Active Directory.
+
+2. **Create a Reverse Lookup Zone for Your Domain**:
+   - In **DNS Manager**, right-click **Reverse Lookup Zones** and select **New Zone**.
+   - Choose **Primary Zone** and ensure the zone type is set to **Reverse Lookup Zone**.
+   - Define the **Network ID** for your addressing space (e.g., for the 192.168.30.0/24 network, the Network ID would be 192.168.30).
+   - Complete the wizard to create the reverse lookup zone.
+
+### **Configure File Server Requirements**
+
+1. **Create the Shared Folder Structure**:
+   - On the **File Server**, create a folder structure for the shared files:
+     - Example: 
+       - `\\fileserver\Sales`
+       - `\\fileserver\HR`
+       - `\\fileserver\IT`
+   - Right-click on the folder and select **Properties** → **Sharing** tab.
+   - Click **Advanced Sharing**, and then click **Share this folder**.
+
+2. **Ensure File Server Role is Configured Correctly**:
+   - In the **File and Storage Services** section of **Server Manager**, click **Shares**.
+   - Ensure that the shared folders are listed and accessible.
+   - Set permissions to ensure users from the domain can access the share. You may need to add appropriate **Domain Users** group permissions.
+
+3. **Configure Security Groups for Departments**:
+   - Create a **security group** for each department (e.g., **Sales**, **HR**, **IT**).
+   - Go to **Active Directory Users and Computers (ADUC)**.
+   - Right-click on the **Groups** container and select **New Group**.
+   - Name the group (e.g., **Sales**), and assign it to the **appropriate organizational unit** (OU).
+
+4. **Add Users to the Appropriate Security Group**:
+   - In **ADUC**, locate each department's group (e.g., **Sales**).
+   - Right-click on the group, and select **Properties**.
+   - Under the **Members** tab, click **Add** and select the users that belong to that department.
+
+5. **Configure Group Policy to Automatically Deploy Shared Folders**:
+   - Open the **Group Policy Management Console (GPMC)** from **Server Manager** → **Tools** → **Group Policy Management**.
+   - Right-click on **Group Policy Objects** and select **New** to create a new GPO.
+   - Name the GPO (e.g., **Deploy Shared Folders**).
+   - Right-click the GPO and select **Edit**.
+   - Navigate to: **User Configuration** → **Preferences** → **Windows Settings** → **Drive Maps**.
+   - Right-click and select **New** → **Mapped Drive**.
+   - Set the following:
+     - **Location**: The path to the shared folder (e.g., `\\fileserver\Sales`).
+     - **Reconnect**: Check the box to reconnect the drive at logon.
+   - Link the GPO to the **appropriate Organizational Unit (OU)** that contains the users.
+
+### **Folder/Share Minimum Requirements (Best Practices)**
+
+1. **Delete Permission is Disabled**:
+   - In the shared folder properties, under the **Security** tab, ensure **Delete** permission is **disabled** for users.
+   
+2. **Users Shouldn’t Be Able to Make Changes to the Settings of the Folder/Share**:
+   - Ensure **Full Control** permission is granted only to administrators and relevant users.
+   - In the **Security** tab, limit the permissions for the users to **Read** and **Write**, but not modify the folder settings.
+
+3. **Appropriate Ownership to Allow the Correct Access**:
+   - Set the **Owner** of the shared folder to an appropriate administrator group.
+   - Right-click on the folder, select **Properties**, and go to the **Security** tab.
+   - Click **Advanced** and then set the **Owner** to an administrative group like **Domain Admins**.
+
