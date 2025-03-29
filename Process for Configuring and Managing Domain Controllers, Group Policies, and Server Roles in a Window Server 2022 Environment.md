@@ -787,3 +787,49 @@ foreach ($user in $users) {
 - Regularly review and audit the GPOs to ensure compliance with security requirements.
 - Document any changes made to GPOs for future troubleshooting and audits.
 
+---
+
+## **Reversion Information**
+
+In case the process needs to be reversed or rolled back, follow the steps outlined below to undo the changes made during the server configuration:
+
+### **Reversion for Network Configuration**
+- **Action**: To revert the IP scheme, DHCP, and DNS settings:
+  1. **Restore the original IP configuration** for servers and computers.
+  2. **Revert DHCP configurations** to the previous settings if static reservations were modified.
+  3. **Reset DNS settings** on the Domain Controller to the default settings.
+  
+### **Reversion for Domain Controller Setup**
+- **Action**: To remove a Domain Controller and revert Active Directory and DNS changes:
+  1. **Demote the Domain Controller**: Run the `Remove-DomainController` PowerShell command on the server.
+  2. **Uninstall Active Directory Domain Services**: Use the "Server Manager" to uninstall AD DS.
+  3. **Remove DNS Role**: Remove the DNS role using "Add Roles and Features" in Server Manager.
+  4. **Restore previous network configurations** if necessary.
+
+### **Reversion for Group Policy**
+- **Action**: To revert applied Group Policy Objects (GPOs):
+  1. **Open Group Policy Management Console (GPMC)**.
+  2. **Delete or disable the GPOs** related to password policies, command prompt restrictions, etc.
+  3. **Force a GPO update** using the `gpupdate /force` command to apply changes immediately.
+
+### **Reversion for File Server Configuration**
+- **Action**: To revert file server roles and permissions:
+  1. **Unshare folders**: Remove any shared folders configured during the setup.
+  2. **Revert file system permissions**: Modify the folder access permissions back to their original state.
+  3. **Delete security groups** created for department-specific shares.
+  
+#### 8.5 **Reversion for Backup Configuration**
+- **Action**: To undo scheduled backup configuration:
+  1. **Remove backup jobs** created for the system by navigating to the "Windows Server Backup" utility.
+  2. **Delete backup schedules** by disabling any existing tasks in Task Scheduler.
+  3. **Delete backup data** from the network share.
+
+### **General Reversion Procedure**
+- **Action**: If a general rollback is required:
+  1. **Restore from backup**: Restore the system state from the last valid backup if critical configuration steps were incorrect.
+  2. **Revert all changes made**: Uninstall roles, remove users or groups created, and reset settings to the default state before the configuration began.
+
+### Notes:
+- Ensure that backups are performed before making any changes to configurations.
+- Testing the reversal steps in a controlled environment is recommended before applying in production.
+- Any configuration changes should be documented to ensure proper rollback if needed.
