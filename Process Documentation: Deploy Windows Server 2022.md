@@ -440,7 +440,7 @@ Repeat the above process to create additional users as necessary.
    - Right-click on the folder, select **Properties**, and go to the **Security** tab.
    - Click **Advanced** and then set the **Owner** to an administrative group like **Domain Admins**.
 
-## **Step 6: Schedule a One-Time Backup on a Network Drive**
+## **Step 6 (Optional): Schedule a One-Time Backup on a Network Drive**
 
 ### **1. Open Windows Server Backup**
    - On the **Domain Controller** or the **Backup Server**, open **Server Manager**.
