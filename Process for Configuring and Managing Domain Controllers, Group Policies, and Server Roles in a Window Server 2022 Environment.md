@@ -107,6 +107,56 @@ By defining and assigning clear roles and responsibilities, each participant in 
 
 ---
 
+### ** Inputs and Outputs**
+
+This section outlines the required **inputs** for the process, as well as the expected **outputs**. By identifying the inputs and outputs, this section ensures that all necessary resources are available and that the desired results are achieved upon completing the process.
+
+**Inputs**:
+- **Windows Server 2022 ISO**: Required to install and configure the domain controller and other server roles.
+- **Hardware Resources**: Servers and workstations with sufficient resources for Windows Server 2022 and required roles.
+  - Server hardware (e.g., CPU, RAM, storage) must meet the minimum system requirements for Windows Server 2022.
+  - Network infrastructure capable of supporting static IP assignments, DHCP scope, and DNS records.
+- **IP Addressing Scheme**: A predefined plan for static IP assignments (for servers) and DHCP scope (for workstations).
+- **Active Directory Domain Name**: The domain name as specified earlier (e.g., "yourinitials.nsamsitt.ca").
+- **Group Policy Template**: A template or set of predefined policies that need to be applied across the domain.
+- **User Information**: A list of users and their details (e.g., usernames, first names, last names) for Active Directory creation.
+- **Shared Folder Structure**: A plan or design for organizing and sharing folders for different departments.
+- **Backup Schedule**: Details on backup frequency (e.g., daily incremental, weekly full) and location (e.g., network share for backups).
+- **Security Group Structure**: A list of security groups based on departments or access levels for file share permissions.
+
+**Outputs**:
+- **Configured Domain Environment**:  
+  - Domain Controller (DC) set up and configured with **Active Directory Domain Services (AD DS)**.
+  - DNS server configured and integrated with the domain.
+  - DHCP scope set up with static IP reservations for servers and dynamic IP allocation for workstations.
+- **Successfully Joined Devices**:  
+  - All servers and workstations have been successfully joined to the domain.
+  - Devices properly receive IP addresses according to the scope defined in the DHCP configuration.
+- **Group Policy Objects (GPOs)**:  
+  - **Password Policy** applied across all domain users.
+  - **Account Lockout & Reset Policy** applied.
+  - Restrictions on **Command Prompt** and **PowerShell** for regular users.
+  - Restrictions on **Control Panel** access.
+  - Disabled **Shut Down/Power Off** options for standard users.
+  - Disabling the view of **recently logged-on users**.
+- **User Accounts and OUs**:  
+  - User accounts created in Active Directory with appropriate **organizational units (OUs)**.
+  - Users grouped into appropriate **security groups** for access control.
+- **Configured File Shares**:  
+  - Shared folders structured according to department requirements, with appropriate **permissions** configured for each department’s security group.
+  - **Group policies** deployed to automatically map shared folders to domain users.
+- **Scheduled Backup**:  
+  - Backup job set up for a one-time backup to the designated **network drive**.
+  - The backup is successfully executed, and data is backed up per the defined schedule.
+- **Secure Access Control**:  
+  - Only authorized users have access to specific shared resources based on their department’s security group.
+  - Permissions and ownership settings ensure that users cannot delete files or change folder configurations.
+
+**Expected Final Output**:  
+A fully configured and secure domain environment in **Windows Server 2022** where all required roles are installed, services are running correctly, devices are joined to the domain, user access is controlled via group policies, and backup configurations are set to ensure data protection.
+
+---
+
 ## **Step-by-Step Procedure for Deploying Windows Server 2022**
 
 ## **Step 1: Verify Hardware Requirements**  
