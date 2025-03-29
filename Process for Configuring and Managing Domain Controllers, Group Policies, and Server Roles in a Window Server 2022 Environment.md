@@ -107,7 +107,7 @@ By defining and assigning clear roles and responsibilities, each participant in 
 
 ---
 
-### **Inputs and Outputs**
+## **Inputs and Outputs**
 
 This section outlines the required **inputs** for the process, as well as the expected **outputs**. By identifying the inputs and outputs, this section ensures that all necessary resources are available and that the desired results are achieved upon completing the process.
 
